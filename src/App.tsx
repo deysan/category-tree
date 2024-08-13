@@ -1,67 +1,42 @@
+import { useEffect, useState } from 'react';
+
 import { ChartBarSquareIcon } from '@heroicons/react/24/outline';
 
-import { CategoryTree } from './components/CategoryTree';
 import { Category } from './types';
-
-const categories: Category[] = [
-  {
-    name: 'Home',
-    categories: [
-      {
-        name: 'Movies',
-        categories: [
-          {
-            name: 'Action',
-            categories: [
-              {
-                name: '2000s',
-                categories: [
-                  { name: 'Gladiator.mp4' },
-                  { name: 'The-Dark-Knight.mp4' },
-                ],
-              },
-              { name: '2010s', categories: [] },
-            ],
-          },
-          {
-            name: 'Comedy',
-            categories: [
-              { name: '2000s', categories: [{ name: 'Superbad.mp4' }] },
-            ],
-          },
-          {
-            name: 'Drama',
-            categories: [
-              { name: '2000s', categories: [{ name: 'American-Beauty.mp4' }] },
-            ],
-          },
-        ],
-      },
-      {
-        name: 'Music',
-        categories: [
-          { name: 'Rock', categories: [] },
-          { name: 'Classical', categories: [] },
-        ],
-      },
-      { name: 'Pictures', categories: [] },
-      {
-        name: 'Documents',
-        categories: [],
-      },
-      { name: 'passwords.txt' },
-    ],
-  },
-];
+import { getAllCategories } from './utils/getAllCategories';
+import { CategoryTree } from './components/CategoryTree';
 
 export default function App() {
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  const getCategories = async () => {
+    try {
+      setLoading(true);
+      const categories = await getAllCategories();
+      setCategories(categories);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
   return (
     <main className="flex flex-col gap-2">
       <h1 className="flex gap-2 text-3xl font-bold">
         Category Tree <ChartBarSquareIcon className="size-6" />
       </h1>
 
-      <CategoryTree categories={categories} />
+      {loading ? (
+        <div className="animate-spin rounded-full size-6 border-t-2 border-b-2" />
+      ) : (
+        <CategoryTree categories={categories} />
+      )}
     </main>
   );
 }
