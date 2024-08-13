@@ -16,7 +16,11 @@ export const getAllCategories = async (
   for (const doc of categorySnapshots.docs) {
     const category = doc.data() as Category;
     category.categories = await getAllCategories(`${collectionPath}/${doc.id}`);
-    categories.push(category);
+    categories.push({
+      ...category,
+      id: doc.id,
+      parentPath: collectionPath,
+    });
   }
 
   return categories;

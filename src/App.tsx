@@ -1,30 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { ChartBarSquareIcon } from '@heroicons/react/24/outline';
 
-import { Category } from './types';
-import { getAllCategories } from './utils/getAllCategories';
 import { CategoryTree } from './components/CategoryTree';
+import { useStore } from './store/zustand';
+import { getAllCategories } from './utils/getAllCategories';
 
 export default function App() {
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const setCategories = useStore((state) => state.setCategories);
 
-  const getCategories = async () => {
+  const [isLoading, setLoading] = useState(false);
+
+  const getCategories = useCallback(async () => {
     try {
       setLoading(true);
+
       const categories = await getAllCategories();
+
       setCategories(categories);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [setLoading, setCategories]);
 
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [getCategories]);
 
   return (
     <main className="flex flex-col gap-2">
@@ -32,10 +35,10 @@ export default function App() {
         Category Tree <ChartBarSquareIcon className="size-6" />
       </h1>
 
-      {loading ? (
+      {isLoading ? (
         <div className="animate-spin rounded-full size-6 border-t-2 border-b-2" />
       ) : (
-        <CategoryTree categories={categories} />
+        <CategoryTree />
       )}
     </main>
   );
