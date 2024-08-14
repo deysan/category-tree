@@ -1,50 +1,55 @@
-# React + TypeScript + Vite
+# Category Tree
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple category tree application built with React, TypeScript, Tailwind CSS, and Vite. The app allows users to create, edit, and manage hierarchical categories and subcategories, with all data stored in Firebase.
 
-Currently, two official plugins are available:
+![Category Tree](./public/screenshot.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Add Category/Subcategory**: Easily add new categories or subcategories within the existing structure.
+- **Edit Category Name**: Rename any category or subcategory in the tree.
+- **Delete Category**: Remove categories along with all their subcategories.
+- **Expand/Collapse Parent Category**: Expand or collapse parent categories, hiding or showing their children.
+- **CRUD Operations in Firebase**: Full create, read, update, and delete functionality with Firebase integration.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Technologies Used
 
-- Configure the top-level `parserOptions` property like this:
+- **React**: For building the user interface.
+- **TypeScript**: Ensures type safety and better code readability.
+- **Tailwind CSS**: Provides utility-first CSS for rapid UI development.
+- **Vite**: A fast development environment and build tool.
+- **Firebase Firestore**: Real-time NoSQL database for storing the category tree data.
+- **Zustand**: Lightweight state management library used for managing the state of the category tree.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Installation
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+To run the project locally, follow these steps:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. **Install dependencies**:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+   ```bash
+   pnpm install # or npm install
+   ```
+
+2. **Set up Firebase**:
+
+   Add environment variables to the `.env` file:
+
+   ```bash
+   VITE_FIREBASE_API_KEY=your-api-key
+   VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
+   VITE_FIREBASE_PROJECT_ID=your-project-id
+   VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+   VITE_FIREBASE_APP_ID=your-app-id
+   ```
+
+3. **Run the development server**:
+
+   ```bash
+   pnpm run dev # or npm run dev
+   ```
+
+4. **Open the application**:
+
+   Navigate to `http://localhost:5173` in your web browser.
